@@ -24,7 +24,7 @@
 		private function match(string $url_path): void
 		{
 			
-			$url_path = trim($url_path, '/');
+		 
 			
 			$url_path = str_replace('-', '',  ucwords( strtolower($url_path), '-' ) );
 			
@@ -59,7 +59,7 @@
 			
 			
 			$this->match($url_path);
-			
+			 			
 			if( $this->matchResult == 'true' )  {
 				
 				$url_path = urldecode($url_path);
@@ -168,7 +168,7 @@
 									
 								}, ARRAY_FILTER_USE_KEY);
 								
-								//echo '<pre>'; print_r($params); echo '</pre>';
+								echo '<pre>'; print_r($params); echo '</pre>';
 								
 								
 								if( count($params)>0 ) {
@@ -209,7 +209,6 @@
 					} // end if(preg_match)
 					
 				} // end foreach
-				
 				
 				} else {
 				
