@@ -1,2 +1,2 @@
-# mvc-framework--2
+# mvc-framework
 PHP MV framework, auto routing, public folder, htaccess
