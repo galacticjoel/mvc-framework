@@ -25,7 +25,8 @@
 		{
 			
 		 
-			
+            $url_path = trim($url_path, '/');
+
 			$url_path = str_replace('-', '',  ucwords( strtolower($url_path), '-' ) );
 			
 			
