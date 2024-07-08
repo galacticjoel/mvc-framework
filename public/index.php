@@ -5,7 +5,6 @@
 	//use Framework;
 	
 	$url_path = parse_url($_SERVER["REQUEST_URI"], PHP_URL_PATH);
-    $url_path = trim($url_path, '/');
 	
 	
 	spl_autoload_register(function (string $class_name) {
