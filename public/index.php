@@ -5,7 +5,7 @@
 	//use Framework;
 	
 	$url_path = parse_url($_SERVER["REQUEST_URI"], PHP_URL_PATH);
-	
+	 
 	
 	spl_autoload_register(function (string $class_name) {
 		
@@ -19,6 +19,7 @@
 	
 	$router->add("/{controller}", '#^(?<controller>[a-z]+)$#iu');
 	$router->add("/{controller}/{action}", '#^(?<controller>[a-zA-Z]+)\/(?<action>[a-zA-Z]+)$#iu');
+	$router->add("/namespace}/{controller}/{action}", '#^(?<namespace>[a-zA-Z]+)\/(?<controller>[a-zA-Z]+)\/(?<action>[a-zA-Z]+)$#iu');
 	
 	$router->add("/{controller}/{id}", '#^(?<controller>[a-zA-Z]+)\/(?<id>[0-9]+)$#iu'); 
 	$router->add("/{controller}/{action}/{id}", '#^(?<controller>[a-zA-Z]+)\/(?<action>[a-zA-Z]+)\/(?<id>[0-9]+)$#iu'); 
@@ -29,7 +30,7 @@
 	
 	
 	
-
+ 
 	$router->dispatch($url_path);
 	
 	

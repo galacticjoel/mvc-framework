@@ -5,10 +5,11 @@
 	class Router
 	{
 		private array $routes = [];
-		private string $matchResult = 'false';
+		private bool $matchResult = false;
 		
 		private string $controller;
 		private string $action;
+		private string $namespace;
 		
 		
 		
@@ -26,16 +27,15 @@
 			
 		 
             $url_path = trim($url_path, '/');
-
+ 
 			$url_path = str_replace('-', '',  ucwords( strtolower($url_path), '-' ) );
 			
-			
+			 
 			
 			foreach ($this->routes as $route) {
 				
 				$pattern = $route['regex'];  
-				
-				
+				 
 				
 				if ( !preg_match($pattern, $url_path) ) {
 					
@@ -43,8 +43,8 @@
 					
 					
 					}  else {
-					
-					$this->matchResult = 'true';
+					 
+					$this->matchResult = true;
 					
 					
 				}
@@ -60,8 +60,9 @@
 			
 			
 			$this->match($url_path);
+			 
 			 			
-			if( $this->matchResult == 'true' )  {
+			if( $this->matchResult)  {
 				
 				$url_path = urldecode($url_path);
 				
@@ -70,8 +71,7 @@
 				}
 				
 				$url_path = str_replace('-', '',  ucwords( strtolower($url_path), '-' ) );
-				
-				
+				 			
 				
 				if($url_path == '/'){
 					
@@ -84,7 +84,7 @@
 				foreach ($this->routes as $route) {
 					
 					$pattern = $route['regex'];   
-					
+					 
 					
 					if ( preg_match($pattern, $url_path, $matches) ) {   
 						
@@ -94,7 +94,20 @@
 						
 						//echo '<pre>'; print_r($matches); echo '</pre>';  
 						
-						if( ! file_exists( APPROOT . "/Controllers/" . ucwords($matches['controller']) . '.php' ) ) {
+						  						
+						if( array_key_exists('namespace', $matches) ) {
+								
+								$this->namespace = "App\Controllers\\" . $matches['namespace'] ."\\";
+								 
+								
+								} else {
+								
+								$this->namespace = "App\Controllers\\";								
+								 
+								}
+						 
+						  						 
+						if( ! file_exists( ROOT . '/src/' . $this->namespace. ucwords($matches['controller']) . '.php' ) ) {
 							
 							$home = new \App\Controllers\Home;
 							$home->index();
@@ -102,20 +115,28 @@
 							
 							
 						}  
+												 
 						
 						
-						if( file_exists( APPROOT . "/Controllers/" . ucwords($matches['controller']) . '.php' ) ) {
+						if( file_exists( ROOT . '/src/' . $this->namespace . ucwords($matches['controller']) . '.php' ) ) {
 							
+							if( array_key_exists('namespace', $matches) ) {
+								
+								$this->controller = $this->namespace. ucwords($matches['controller']);
+ 								
+								} else {
+								
+								$this->controller = "App\Controllers\\" . $matches['controller'];
+
+								}
 							
-							
-							$this->controller = "App\Controllers\\" . $matches['controller'];
 							
 							
 							if( empty($matches['action']) ) {
 								
 								$params = array_filter($matches, function ($key) {
 									
-									return $key !== 'controller' && $key !== 'action';
+									return $key !== 'controller' && $key !== 'action' && $key !== 'namespace';
 									
 								}, ARRAY_FILTER_USE_KEY);
 								
@@ -165,7 +186,7 @@
 								$params = array_filter($matches, function ($key) {
 									
 									
-									return $key !== 'controller' && $key !== 'action';
+									return $key !== 'controller' && $key !== 'action' && $key !== 'namespace';
 									
 								}, ARRAY_FILTER_USE_KEY);
 								

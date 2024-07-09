@@ -13,7 +13,7 @@
     <h2><?= 'Single product' ?></h2>
     <p><?= 'Single product description' ?></p>
 
- 
+  <a href="http://phpmvc.localhost/products/show">Individual product</a>
 
 </body>
 </html>
